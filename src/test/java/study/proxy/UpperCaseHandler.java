@@ -1,6 +1,7 @@
 package study.proxy;
 
 import lombok.RequiredArgsConstructor;
+import study.proxy.matcher.MethodMatcher;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,11 +10,14 @@ import java.lang.reflect.Method;
 public class UpperCaseHandler implements InvocationHandler {
 
     private final Car car;
+    private final MethodMatcher methodMatcher;
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         final String methodName = (String) method.invoke(car, args);
-
-        return methodName.toUpperCase();
+        if (methodMatcher.matches(method)) {
+            return methodName.toUpperCase();
+        }
+        return methodName;
     }
 }
