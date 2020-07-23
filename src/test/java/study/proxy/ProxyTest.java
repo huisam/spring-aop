@@ -1,5 +1,6 @@
 package study.proxy;
 
+import net.sf.cglib.proxy.Enhancer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,22 @@ public class ProxyTest {
                 new Class[]{Car.class},
                 invocationHandler
         );
+
+        /* then */
+        assertThat(proxiedCar.start("huisam")).isEqualTo("CAR HUISAM STARTED!");
+        assertThat(proxiedCar.stop("huisam")).isEqualTo("CAR HUISAM STOPPED!");
+    }
+
+    @Test
+    @DisplayName("cglib Proxy 테스트")
+    void cglibProxyTest() {
+        /* given */
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(CarTarget.class);
+        enhancer.setCallback(new UpperCaseInterceptor());
+
+        /* when */
+        final Car proxiedCar = (Car) enhancer.create();
 
         /* then */
         assertThat(proxiedCar.start("huisam")).isEqualTo("CAR HUISAM STARTED!");
