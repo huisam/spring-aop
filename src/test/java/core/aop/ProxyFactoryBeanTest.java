@@ -26,7 +26,7 @@ class ProxyFactoryBeanTest {
 
     @Test
     @DisplayName("ProxyFactoryBean에 Callback을 적용해서 Proxy Target을 생성하기")
-    void test() {
+    void test_proxy_factory_bean_callBack() {
         /* given */
         ProxyTarget proxyTarget = new ProxyTarget();
         ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean(proxyTarget);

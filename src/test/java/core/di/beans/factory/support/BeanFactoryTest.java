@@ -1,12 +1,11 @@
 package core.di.beans.factory.support;
 
+import core.di.context.annotation.AnnotatedBeanDefinitionReader;
 import core.di.context.annotation.ClasspathBeanDefinitionScanner;
-import core.di.factory.example.MyQnaService;
-import core.di.factory.example.MyUserController;
-import core.di.factory.example.MyUserService;
-import core.di.factory.example.QnaController;
+import core.di.factory.example.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,9 +16,24 @@ public class BeanFactoryTest {
     @BeforeEach
     public void setup() {
         beanFactory = new DefaultBeanFactory();
+
+        final AnnotatedBeanDefinitionReader beanDefinitionReader = new AnnotatedBeanDefinitionReader(beanFactory);
+        beanDefinitionReader.loadBeanDefinitions(ProxyConfig.class);
+
         ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(beanFactory);
         scanner.doScan("core.di.factory.example");
         beanFactory.preInstantiateSingletons();
+    }
+
+    @Test
+    @DisplayName("ProxyTarget의 구현체는 getObject로 Bean을 등록한다")
+    void FactoryBean_Register_ProxyTarget() {
+        /* when */
+        final ProxyTarget proxyTarget = beanFactory.getBean(ProxyTarget.class);
+
+        /* then */
+        assertThat(proxyTarget).isNotNull();
+        assertThat(proxyTarget.start("huisam")).isEqualTo("START FROM HUISAM");
     }
 
     @Test
