@@ -69,16 +69,17 @@ public class DefaultBeanFactory implements BeanDefinitionRegistry, ConfigurableL
     }
 
     @SuppressWarnings("rawtypes")
-    private <T> Object registerBean(Class<T> clazz, Object beanInstance) {
+    private <T> void registerBean(Class<T> clazz, Object beanInstance) {
         if (beanInstance instanceof FactoryBean) {
             FactoryBean factoryBean = (FactoryBean) beanInstance;
 
             final Class<?> beanClass = factoryBean.getObjectType();
             final Object object = factoryBean.getObject();
-            return beans.put(beanClass, object);
+            beans.put(beanClass, object);
+            return;
         }
 
-        return beans.put(clazz, beanInstance);
+        beans.put(clazz, beanInstance);
     }
 
     private void initialize(Object bean, Class<?> beanClass) {
