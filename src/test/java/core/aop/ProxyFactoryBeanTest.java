@@ -4,7 +4,6 @@ import core.di.factory.example.ProxyTarget;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import study.proxy.UpperCaseInterceptor;
-import study.proxy.matcher.MethodMatcher;
 import study.proxy.matcher.StartMethodMatcher;
 
 import static org.assertj.core.api.Assertions.assertThat;

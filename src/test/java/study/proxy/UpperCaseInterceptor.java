@@ -1,9 +1,9 @@
 package study.proxy;
 
+import core.aop.MethodMatcher;
 import lombok.RequiredArgsConstructor;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import study.proxy.matcher.MethodMatcher;
 
 import java.lang.reflect.Method;
 
