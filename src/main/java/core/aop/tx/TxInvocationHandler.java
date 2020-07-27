@@ -2,8 +2,8 @@ package core.aop.tx;
 
 import core.aop.ClassFilter;
 import core.aop.MethodMatcher;
+import core.aop.tx.connection.ConnectionUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationHandler;
@@ -23,7 +23,7 @@ public class TxInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Class<?> clazz = target.getClass();
         if (matchClass(clazz) || methodMatch(method)) {
-            Connection connection = DataSourceUtils.getConnection(dataSource);
+            Connection connection = ConnectionUtils.getConnection(dataSource, true);
             try {
                 connection.setAutoCommit(false);
 
