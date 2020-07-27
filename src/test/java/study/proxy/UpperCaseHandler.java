@@ -1,6 +1,6 @@
 package study.proxy;
 
-import core.aop.MethodMatcher;
+import core.aop.pointcut.MethodMatcher;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.InvocationHandler;

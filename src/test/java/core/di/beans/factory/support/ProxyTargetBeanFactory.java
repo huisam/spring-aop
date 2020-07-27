@@ -1,7 +1,7 @@
 package core.di.beans.factory.support;
 
-import core.aop.FactoryBean;
-import core.aop.MethodMatcher;
+import core.aop.factorybean.FactoryBean;
+import core.aop.pointcut.MethodMatcher;
 import core.di.factory.example.ProxyTarget;
 import net.sf.cglib.proxy.Enhancer;
 import study.proxy.UpperCaseInterceptor;

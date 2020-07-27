@@ -1,5 +1,6 @@
 package core.aop;
 
+import core.aop.factorybean.FactoryBean;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 

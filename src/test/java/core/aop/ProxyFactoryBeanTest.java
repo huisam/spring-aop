@@ -1,5 +1,6 @@
 package core.aop;
 
+import core.aop.pointcut.MethodMatcher;
 import core.di.factory.example.ProxyTarget;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
