@@ -1,23 +1,20 @@
 package core.aop.tx;
 
 import core.aop.factorybean.ProxyFactoryBean;
-import lombok.RequiredArgsConstructor;
+import core.di.context.ApplicationContext;
+import org.springframework.cglib.proxy.MethodInterceptor;
 
-import java.lang.reflect.InvocationHandler;
-
-@RequiredArgsConstructor
 public class TxProxyFactoryBean extends ProxyFactoryBean {
 
-    private final Object target;
-    private final Class<?> objectType;
+    private ApplicationContext applicationContext;
 
-    @Override
-    protected InvocationHandler getInvocationHandler() {
-        return new TxInvocationHandler(target, new TxPointCut());
+    public TxProxyFactoryBean(ApplicationContext applicationContext, Object target, Class<?> objectType) {
+        super(applicationContext, target, objectType);
+        this.applicationContext = applicationContext;
     }
 
     @Override
-    public Class<?> getObjectType() {
-        return objectType;
+    protected MethodInterceptor getMethodInterceptor() {
+        return new TxMethodInterceptor(applicationContext, new TxPointCut());
     }
 }
