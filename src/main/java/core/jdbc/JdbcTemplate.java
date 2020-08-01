@@ -19,11 +19,15 @@ public class JdbcTemplate {
     }
 
     public void update(String sql, PreparedStatementSetter pss) throws DataAccessException {
-        try (Connection conn = ConnectionUtils.getConnection(dataSource); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            Connection conn = ConnectionUtils.getConnection(dataSource);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pss.setParameters(pstmt);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException(e);
+        } finally {
+            ConnectionUtils.closeConnection();
         }
     }
 
@@ -32,7 +36,8 @@ public class JdbcTemplate {
     }
 
     public void update(PreparedStatementCreator psc, KeyHolder holder) {
-        try (Connection conn = ConnectionUtils.getConnection(dataSource)) {
+        try {
+            Connection conn = ConnectionUtils.getConnection(dataSource);
             PreparedStatement ps = psc.createPreparedStatement(conn);
             ps.executeUpdate();
 
@@ -43,6 +48,8 @@ public class JdbcTemplate {
             rs.close();
         } catch (SQLException e) {
             throw new DataAccessException(e);
+        } finally {
+            ConnectionUtils.closeConnection();
         }
     }
 
@@ -60,7 +67,9 @@ public class JdbcTemplate {
 
     public <T> List<T> query(String sql, RowMapper<T> rm, PreparedStatementSetter pss) throws DataAccessException {
         ResultSet rs = null;
-        try (Connection conn = ConnectionUtils.getConnection(dataSource); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            Connection conn = ConnectionUtils.getConnection(dataSource);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pss.setParameters(pstmt);
             rs = pstmt.executeQuery();
 
@@ -76,6 +85,7 @@ public class JdbcTemplate {
                 if (rs != null) {
                     rs.close();
                 }
+                ConnectionUtils.closeConnection();
             } catch (SQLException e) {
                 throw new DataAccessException(e);
             }
