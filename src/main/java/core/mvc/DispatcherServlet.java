@@ -48,14 +48,14 @@ public class DispatcherServlet extends HttpServlet {
 
             ModelAndView mav = handlerExecutor.handle(req, resp, maybeHandler.get());
             render(mav, req, resp);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             logger.error("Exception : {}", e);
             handleException(req, resp, e);
         }
     }
 
-    private void handleException(HttpServletRequest req, HttpServletResponse resp, Throwable e) throws ServletException {
-        final ExceptionHandler exceptionHandler = exceptionHandlingRegistry.getHandler(e)
+    private void handleException(HttpServletRequest req, HttpServletResponse resp, Exception e) throws ServletException {
+        final ExceptionHandler exceptionHandler = exceptionHandlingRegistry.getHandler(e.getClass())
                 .orElseThrow(() -> new ServletException(e.getMessage()));
 
         try {
