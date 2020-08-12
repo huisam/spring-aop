@@ -7,5 +7,5 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface ExceptionHandler {
 
-    ModelAndView handle(HttpServletRequest request, HttpServletResponse response);
+    ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws ReflectiveOperationException;
 }
