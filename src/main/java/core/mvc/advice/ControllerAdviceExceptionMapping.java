@@ -1,6 +1,7 @@
 package core.mvc.advice;
 
 import com.google.common.collect.Maps;
+import core.mvc.tobe.ArgumentMatcher;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Method;
@@ -16,8 +17,10 @@ public class ControllerAdviceExceptionMapping implements ExceptionMapping {
     public static final Class<ExceptionHandle> EXCEPTION_HANDLE_ANNOTATION = ExceptionHandle.class;
     private final Map<Class<? extends Throwable>, ExceptionHandler> handlers = Maps.newHashMap();
     private final Object[] basePackage;
+    private final ArgumentMatcher argumentMatcher;
 
-    public ControllerAdviceExceptionMapping(Object... basePackage) {
+    public ControllerAdviceExceptionMapping(ArgumentMatcher argumentMatcher, Object... basePackage) {
+        this.argumentMatcher = argumentMatcher;
         this.basePackage = basePackage;
     }
 
@@ -34,7 +37,7 @@ public class ControllerAdviceExceptionMapping implements ExceptionMapping {
             for (Method exceptionHandlerMethod : exceptionHandlerMethods) {
                 final Class<? extends Throwable> exceptionClass = exceptionHandlerMethod.getAnnotation(EXCEPTION_HANDLE_ANNOTATION).exception();
 
-                handlers.put(exceptionClass, new DefaultExceptionHandler(exceptionHandlerMethod));
+                handlers.put(exceptionClass, new DefaultExceptionHandler(exceptionHandlerMethod, argumentMatcher));
             }
         }
     }

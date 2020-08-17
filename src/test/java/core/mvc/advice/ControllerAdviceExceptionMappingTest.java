@@ -1,6 +1,7 @@
 package core.mvc.advice;
 
 import core.mvc.ModelAndView;
+import core.mvc.tobe.ArgumentMatcher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -14,7 +15,7 @@ class ControllerAdviceExceptionMappingTest {
     @DisplayName("특정 package를 기준으로 ControllerAdvice를 읽어서 ExceptionHandler를 등록한다")
     void controller_advice_test() throws ReflectiveOperationException {
         /* given */
-        ControllerAdviceExceptionMapping exceptionMapping = new ControllerAdviceExceptionMapping("core.mvc.advice");
+        ControllerAdviceExceptionMapping exceptionMapping = new ControllerAdviceExceptionMapping(new ArgumentMatcher(), "core.mvc.advice");
 
         /* when */
         exceptionMapping.initialize();
